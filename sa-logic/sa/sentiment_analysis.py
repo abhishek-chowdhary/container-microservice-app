@@ -1,5 +1,5 @@
 from textblob import TextBlob
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 
 app = Flask(__name__)
 
@@ -8,10 +8,8 @@ app = Flask(__name__)
 def analyse_sentiment():
     sentence = request.get_json()['sentence']
     polarity = TextBlob(sentence).sentences[0].polarity
-    return jsonify(
-        sentence=sentence,
-        polarity=polarity
-    )
+    returnObject='{"sentence":"'+str(sentence)+'","polarity":"'+str(polarity)+'"}'
+    return Response(returnObject, headers={'content-type': 'application/json'})
 
 
 if __name__ == '__main__':
